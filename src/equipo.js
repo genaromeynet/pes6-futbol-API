@@ -7,19 +7,27 @@ const buscador = document.getElementById("buscador");
 
 let jugadores = [];
 
-console.log("ID recibido:", idEquipo);
+const equipoGuardado = JSON.parse(localStorage.getItem("equipoSeleccionado"));
+console.log("Equipo guardado:", equipoGuardado);
 
+function mostrarEquipo(equipo) {
 
-filtroPosicion.addEventListener("change", filtrarJugadores);
-buscador.addEventListener("input", filtrarJugadores);
+    const contenedor = document.getElementById("infoEquipo");
+
+    contenedor.innerHTML = `
+        <div class="equipo-header">
+            <img src="${equipo.logo}" alt="${equipo.name}">
+            <h2>${equipo.name}</h2>
+        </div>
+    `;
+}
 
 async function cargarEquipo() {
 
-    const plantillaGuardada = localStorage.getItem(`plantilla_${idEquipo}`);
+    if (equipoGuardado) {
+    mostrarEquipo(equipoGuardado);}
 
-    const equipoGuardado = localStorage.setItem(
-    "equipoSeleccionado",
-    JSON.stringify(equipo));
+    const plantillaGuardada = localStorage.getItem(`plantilla_${idEquipo}`);
 
     let plantilla;
 
@@ -29,27 +37,26 @@ async function cargarEquipo() {
         plantilla = JSON.parse(plantillaGuardada);
 
     } else {
- console.log("🌐 Consultando la API");
+
+        console.log("🌐 Consultando la API");
         plantilla = await obtenerPlantilla(idEquipo);
 
         localStorage.setItem(
             `plantilla_${idEquipo}`,
             JSON.stringify(plantilla)
         );
-
     }
-
-    console.log(plantilla);
 
     jugadores = plantilla[0].players;
 
     mostrarJugadores(jugadores);
 
-    
-
 }
 
 cargarEquipo();
+
+filtroPosicion.addEventListener("change", filtrarJugadores);
+buscador.addEventListener("input", filtrarJugadores);
 
 function mostrarJugadores(jugadores) {
 

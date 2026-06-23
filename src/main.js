@@ -6,15 +6,15 @@ import {
   obtenerTablaPosiciones
 } from "./api.js";
 
-const pais = document.getElementById("pais");
-const liga = document.getElementById("liga");
-const equipos = document.getElementById("equipos");
+const $pais = document.getElementById("pais");
+const $liga = document.getElementById("liga");
+const $datosEquipos = document.getElementById("equipos");
 
 let paisSeleccionado = null;
 let ligaSeleccionada = null;
-let temporada = 2025;
+let temporada = 2024;
 let tabla = [];
-let paises;
+let listaPaises;
 
 async function obtenerDatos(clave, funcionAPI) {
 
@@ -43,150 +43,82 @@ function cargarPaises(paises) {
     const option = document.createElement("option");
     option.value = p.name;
     option.textContent = p.name;
-    pais.appendChild(option);
+    $pais.appendChild(option);
   });
 }
 
-function cargarLigas(ligasMock) {
+function cargarLigas(ligas) {
   liga.innerHTML = "";
 
-    ligasMock.forEach(ligaActual => {
+    ligas.forEach(ligaActual => {
     const option = document.createElement("option");
       option.value = ligaActual.league.id;
       option.textContent = ligaActual.league.name;
-      liga.appendChild(option);
+      $liga.appendChild(option);
     });
 }
 
-function cargarEquipos(equiposMock) {
 
-    equipos.innerHTML = "";
+function cargarEquipos(equipos, temporada) {
 
-    equiposMock.forEach(equipo => {
+    $datosEquipos.innerHTML = "";
+
+    equipos.forEach(equipo => {
 
         const card = document.createElement("div");
         card.classList.add("card-equipo");
 
         card.innerHTML = `
-            <img src="${equipo.team.logo}" alt="${equipo.team.name}">
-            <h3>${equipo.team.name}</h3>
+            <img src="${equipo.logo}" alt="${equipo.team.name}">
+            <h3>${equipo.name}</h3>
         `;
 
         const boton = document.createElement("button");
         boton.textContent = "Ver plantilla";
 
-        boton.addEventListener("click", () => {
-    localStorage.setItem("idEquipo", equipo.team.id);
-    window.location.href = "equipo.html"; //cambia de pagina
-       });
+    boton.addEventListener("click", () => {
+    console.log("Equipo:", equipo);
+    localStorage.setItem("idEquipo", equipo.id);
+    localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
+    window.location.href = "equipo.html";
+});
 
         card.appendChild(boton);
-        equipos.appendChild(card);
+        $datosEquipos.appendChild(card);
     });
 }
 
 
-const paises = await obtenerDatos(
-    "paises",
-    obtenerPaises
-);
+  const paises = await obtenerDatos("paises", obtenerPaises);
 
-cargarPaises(paises);
+    cargarPaises(paises);
 
-const ligas = await obtenerDatos(
-    `ligas_${pais}`,
-    () => obtenerLigas(pais) //uso de funcion flecha porque recibe un parametro
-);
+    $pais.addEventListener("change", async () => {
+    paisSeleccionado = $pais.value;
 
-cargarLigas(ligas);
+    $datosEquipos.innerHTML = "";
 
-const equipos = await obtenerDatos(
-    `equipos_${idLiga}`,
-    () => obtenerEquipos(idLiga)
-);
+    const ligas = await obtenerDatos(
+        `ligas_${paisSeleccionado}`,
+        () => obtenerLigas(paisSeleccionado)
+    );
 
-cargarEquipos(equipos);
-
-
-pais.addEventListener("change", () => {
-    const paisSeleccionado = pais.value;
-
-    cargarLigas(ligasMock[paisSeleccionado]);
+    cargarLigas(ligas);
 });
 
-liga.addEventListener("change", () => {
+$liga.addEventListener("change", async () => {
+  console.log("Cambió la liga");
+    const idLiga = $liga.value;
 
-    const idLiga = liga.value;
+    const equipos = await obtenerDatos(
+        `equipos_${idLiga}_${temporada}`,
+        () => obtenerEquipos(idLiga, temporada)
+    );
+    console.log(equipos);
 
-    console.log("ID liga:", idLiga);
-    console.log("Mock completo:", equiposMock);
-    console.log("Equipos de esa liga:", equiposMock[idLiga]);
-
-    cargarEquipos(equiposMock[idLiga]);
+    cargarEquipos(equipos);
 
 });
 
 
 
-
-const paisesMock = [
-  { name: "Argentina" },
-  { name: "Brasil" },
-  { name: "España" },
-  { name: "Inglaterra" },
-  { name: "Italia" }
-];
-
-const ligasMock = {
-    Argentina: [
-    {
-        league:{
-            id:1,
-            name:"Liga Profesional"
-        }
-    },
-    {
-        league:{
-            id:2,
-            name:"Primera Nacional"
-        }
-    }
-]
-};
-
-const equiposMock = {
-    1: [
-        {
-            team: {
-                id: 1,
-                name: "River Plate",
-                logo: "https://placehold.co/100x100"
-            }
-        },
-        {
-            team: {
-                id: 2,
-                name: "Boca Juniors",
-                logo: "https://placehold.co/100x100"
-            }
-        },
-        {
-            team: {
-                id: 3,
-                name: "Racing Club",
-                logo: "https://placehold.co/100x100"
-            }
-        }
-    ],
-
-    2: [
-        {
-            team: {
-                id: 4,
-                name: "Colón"
-,
-                logo: "https://placehold.co/100x100"
-            }
-        }
-    ]
-};
