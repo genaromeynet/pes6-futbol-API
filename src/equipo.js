@@ -10,18 +10,6 @@ let jugadores = [];
 const equipoGuardado = JSON.parse(localStorage.getItem("equipoSeleccionado"));
 console.log("Equipo guardado:", equipoGuardado);
 
-function mostrarEquipo(equipo) {
-
-    const contenedor = document.getElementById("infoEquipo");
-
-    contenedor.innerHTML = `
-        <div class="equipo-header">
-            <img src="${equipo.logo}" alt="${equipo.name}">
-            <h2>${equipo.name}</h2>
-        </div>
-    `;
-}
-
 async function cargarEquipo() {
 
     if (equipoGuardado) {
@@ -39,7 +27,10 @@ async function cargarEquipo() {
     } else {
 
         console.log("🌐 Consultando la API");
+        console.log("idEquipo:", idEquipo);
         plantilla = await obtenerPlantilla(idEquipo);
+
+        console.log("Plantilla:", plantilla);
 
         localStorage.setItem(
             `plantilla_${idEquipo}`,
@@ -47,16 +38,27 @@ async function cargarEquipo() {
         );
     }
 
+    console.log("idEquipo:", idEquipo);
+console.log("plantilla:", plantilla);
+console.log("plantilla[0]:", plantilla[0])
     jugadores = plantilla[0].players;
 
     mostrarJugadores(jugadores);
 
 }
 
-cargarEquipo();
+function mostrarEquipo(equipo) {
 
-filtroPosicion.addEventListener("change", filtrarJugadores);
-buscador.addEventListener("input", filtrarJugadores);
+    const contenedor = document.getElementById("infoEquipo");
+
+    contenedor.innerHTML = `
+        <div class="equipo-header">
+            <img src="${equipo.team.logo}" alt="${equipo.team.name}">
+            <h2>${equipo.team.name}</h2>
+        </div>
+    `;
+}
+
 
 function mostrarJugadores(jugadores) {
 
@@ -102,3 +104,8 @@ function filtrarJugadores() {
     mostrarJugadores(resultado);
 
 }
+
+cargarEquipo();
+
+filtroPosicion.addEventListener("change", filtrarJugadores);
+buscador.addEventListener("input", filtrarJugadores);

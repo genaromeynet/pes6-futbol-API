@@ -69,8 +69,8 @@ function cargarEquipos(equipos, temporada) {
         card.classList.add("card-equipo");
 
         card.innerHTML = `
-            <img src="${equipo.logo}" alt="${equipo.team.name}">
-            <h3>${equipo.name}</h3>
+            <img src="${equipo.team.logo}" alt="${equipo.team.name}">
+            <h3>${equipo.team.name}</h3>
         `;
 
         const boton = document.createElement("button");
@@ -78,7 +78,7 @@ function cargarEquipos(equipos, temporada) {
 
     boton.addEventListener("click", () => {
     console.log("Equipo:", equipo);
-    localStorage.setItem("idEquipo", equipo.id);
+    localStorage.setItem("idEquipo", equipo.team.id);
     localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
     window.location.href = "equipo.html";
 });
