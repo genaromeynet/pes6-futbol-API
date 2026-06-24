@@ -4,11 +4,45 @@ import { obtenerPlantilla } from "./api.js";
 const idEquipo = localStorage.getItem("idEquipo");
 const filtroPosicion = document.getElementById("filtroPosicion");
 const buscador = document.getElementById("buscador");
+const ordenJugadores = document.getElementById("orden")
+const btnLimpiar = document.getElementById("btnLimpiar");
 
 let jugadores = [];
 
+
 const equipoGuardado = JSON.parse(localStorage.getItem("equipoSeleccionado"));
 console.log("Equipo guardado:", equipoGuardado);
+
+function mostrarJugadores(jugadores) {
+
+    const tbody = document.querySelector("#tablaJugadores tbody");
+    const mensaje = document.getElementById("mensajeBusqueda");
+
+    tbody.innerHTML = "";
+
+
+if (jugadores.length === 0) {
+    mensaje.textContent = "🔍 No se encontraron jugadores.";
+} else {
+    mensaje.textContent = "";
+}
+
+
+    jugadores.forEach(jugador => {
+
+        tbody.innerHTML += `
+            <tr>
+                <td><img src="${jugador.photo}" width="40"></td>
+                <td>${jugador.name}</td>
+                <td>${jugador.position}</td>
+                <td>${jugador.number}</td>
+                <td>${jugador.age}</td>
+            </tr>
+        `;
+
+    });
+
+}
 
 async function cargarEquipo() {
 
@@ -60,32 +94,11 @@ function mostrarEquipo(equipo) {
 }
 
 
-function mostrarJugadores(jugadores) {
-
-    const tbody = document.querySelector("#tablaJugadores tbody");
-
-    tbody.innerHTML = "";
-
-    jugadores.forEach(jugador => {
-
-        tbody.innerHTML += `
-            <tr>
-                <td><img src="${jugador.photo}" width="40"></td>
-                <td>${jugador.name}</td>
-                <td>${jugador.position}</td>
-                <td>${jugador.number}</td>
-                <td>${jugador.age}</td>
-            </tr>
-        `;
-
-    });
-
-}
-
 function filtrarJugadores() {
 
     const posicion = filtroPosicion.value;
     const nombre = buscador.value.toLowerCase();
+    const orden = ordenJugadores.value
 
     let resultado = jugadores;
 
@@ -101,11 +114,42 @@ function filtrarJugadores() {
         );
     }
 
+    switch (orden) {
+
+        case "edadAsc":
+            resultado.sort((a, b) => a.age - b.age);
+            break;
+
+        case "edadDesc":
+            resultado.sort((a, b) => b.age - a.age);
+            break;
+
+        case "numeroAsc":
+            resultado.sort((a, b) => (a.number ?? 999) - (b.number ?? 999));
+            break;
+
+        case "numeroDesc":
+            resultado.sort((a, b) => (b.number ?? -1) - (a.number ?? -1));
+            break;
+    }
+
+
+
     mostrarJugadores(resultado);
 
 }
 
 cargarEquipo();
 
+btnLimpiar.addEventListener("click", () => {
+
+    buscador.value = "";
+    filtroPosicion.value = "Todos";
+    ordenJugadores.value = "ninguno";
+
+   filtrarJugadores();
+});
+
 filtroPosicion.addEventListener("change", filtrarJugadores);
 buscador.addEventListener("input", filtrarJugadores);
+ordenJugadores.addEventListener("change", filtrarJugadores);
