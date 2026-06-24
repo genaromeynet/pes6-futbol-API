@@ -1,4 +1,4 @@
-//import "./style.css";
+import "./style.css";
 import {
   obtenerPaises,
   obtenerLigas,
@@ -63,6 +63,17 @@ function cargarEquipos(equipos, temporada) {
 
     $datosEquipos.innerHTML = "";
 
+    if (!equipos || equipos.length === 0) {
+
+        $datosEquipos.innerHTML = `
+            <p class="mensaje-vacio">
+                ❌ No hay equipos disponibles en esta liga
+            </p>
+        `;
+
+        return;
+    }
+
     equipos.forEach(equipo => {
 
         const card = document.createElement("div");
@@ -118,7 +129,13 @@ $liga.addEventListener("change", async () => {
 
     cargarEquipos(equipos);
 
+    resetFiltros();
+
 });
 
-
-
+function resetFiltros() {
+    $pais.value = "";
+    $liga.value = "";
+    $buscador.value = "";
+    $liga.innerHTML = `<option value="">Seleccionar liga</option>`;
+}

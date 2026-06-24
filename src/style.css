@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    background: #0f0f0f;
+    color: #e5e5e5;
+}
+
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+    margin-bottom: 20px;
+}
+
+.filtros {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+select,
+input {
+    background: #151515;
+    color: #e5e5e5;
+
+    border: 1px solid #2a2a2a;
+
+    padding: 8px 10px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: #555;
+}
+
+/*cards de equipos*/
+
+#equipos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.card-equipo {
+    width: 180px;
+
+    background: #151515;
+    border: 1px solid #222;
+
+    padding: 10px;
+
+    transition: 0.15s;
+}
+
+.card-equipo:hover {
+    border-color: #444;
+    background: #181818;
+}
+
+.card-equipo img {
+    width: 50px;
+    height: 50px;
+
+    object-fit: contain;
+
+    margin-bottom: 8px;
+}
+
+.card-equipo h3 {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.card-equipo button {
+    margin-top: 8px;
+
+    width: 100%;
+
+    background: transparent;
+    color: #aaa;
+
+    border: 1px solid #333;
+
+    padding: 6px;
+
+    cursor: pointer;
+}
+
+.card-equipo button:hover {
+    color: #fff;
+    border-color: #555;
+}
+
+.mensaje-vacio {
+    color: #aaa;
+    text-align: center;
+    padding: 30px;
+    font-size: 14px;
+}
+
+

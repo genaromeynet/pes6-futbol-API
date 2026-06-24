@@ -1,4 +1,4 @@
-import "./style.css";
+import "./styleEquipo.css";
 import { obtenerPlantilla } from "./api.js";
 
 const idEquipo = localStorage.getItem("idEquipo");
@@ -15,10 +15,10 @@ console.log("Equipo guardado:", equipoGuardado);
 
 function mostrarJugadores(jugadores) {
 
-    const tbody = document.querySelector("#tablaJugadores tbody");
+   const contenedor = document.getElementById("contenedorJugadores");
     const mensaje = document.getElementById("mensajeBusqueda");
 
-    tbody.innerHTML = "";
+    contenedor.innerHTML = "";
 
 
 if (jugadores.length === 0) {
@@ -30,14 +30,23 @@ if (jugadores.length === 0) {
 
     jugadores.forEach(jugador => {
 
-        tbody.innerHTML += `
-            <tr>
-                <td><img src="${jugador.photo}" width="40"></td>
-                <td>${jugador.name}</td>
-                <td>${jugador.position}</td>
-                <td>${jugador.number}</td>
-                <td>${jugador.age}</td>
-            </tr>
+        contenedor.innerHTML += `
+             <div class="card-jugador ${jugador.position.toLowerCase()}">
+
+                <img
+                    src="${jugador.photo}"
+                    alt="${jugador.name}"
+                >
+
+                <h3>${jugador.name}</h3>
+
+                <p>⚽ ${jugador.position}</p>
+
+                <p>🎂 ${jugador.age} años</p>
+
+                <p>🔟 ${jugador.number ?? "-"}</p>
+
+            </div>
         `;
 
     });
