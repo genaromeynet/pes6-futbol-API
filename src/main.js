@@ -9,6 +9,7 @@ import {
 const $pais = document.getElementById("pais");
 const $liga = document.getElementById("liga");
 const $datosEquipos = document.getElementById("equipos");
+const btnFavoritos = document.getElementById("btnFavoritos");
 
 let paisSeleccionado = null;
 let ligaSeleccionada = null;
@@ -93,11 +94,74 @@ function cargarEquipos(equipos, temporada) {
     localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
     window.location.href = "equipo.html";
 });
+    
+const favBtn = document.createElement("button");
+
+function actualizarEstrella() {
+
+    if (esFavorito(equipo.team.id)) {
+        favBtn.textContent = "⭐";
+    } else {
+        favBtn.textContent = "☆";
+    }
+}
+
+actualizarEstrella();
+
+favBtn.addEventListener("click", (e) => {
+
+    e.stopPropagation();
+
+    let favoritos =
+        JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    const existe = favoritos.some(f => f.id === equipo.team.id);
+
+    if (existe) {
+        favoritos = favoritos.filter(f => f.id !== equipo.team.id);
+    } else {
+        favoritos.push(equipo.team);
+    }
+
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+    actualizarEstrella(); // 🔥 actualiza la UI
+});
 
         card.appendChild(boton);
+        card.appendChild(favBtn);
         $datosEquipos.appendChild(card);
     });
 }
+
+function resetFiltros() {
+    $pais.value = "";
+    $liga.value = "";
+    $buscador.value = "";
+    $liga.innerHTML = `<option value="">Seleccionar liga</option>`;
+}
+
+function agregarFavorito(equipo) {
+
+    let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    const existe = favoritos.some(fav => fav.id === equipo.id);
+
+    if (!existe) {
+        favoritos.push(equipo);
+    }
+
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+}
+
+function esFavorito(id) {
+
+    let favoritos =
+        JSON.parse(localStorage.getItem("favoritos")) || [];
+
+    return favoritos.some(fav => fav.id === id);
+}
+
 
 
   const paises = await obtenerDatos("paises", obtenerPaises);
@@ -133,9 +197,6 @@ $liga.addEventListener("change", async () => {
 
 });
 
-function resetFiltros() {
-    $pais.value = "";
-    $liga.value = "";
-    $buscador.value = "";
-    $liga.innerHTML = `<option value="">Seleccionar liga</option>`;
-}
+btnFavoritos.addEventListener("click", () => {
+    window.location.href = "favoritos.html";
+});

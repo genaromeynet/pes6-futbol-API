@@ -71,6 +71,7 @@ async function cargarEquipo() {
 
         console.log("🌐 Consultando la API");
         console.log("idEquipo:", idEquipo);
+        
         plantilla = await obtenerPlantilla(idEquipo);
 
         console.log("Plantilla:", plantilla);
@@ -81,9 +82,6 @@ async function cargarEquipo() {
         );
     }
 
-    console.log("idEquipo:", idEquipo);
-console.log("plantilla:", plantilla);
-console.log("plantilla[0]:", plantilla[0])
     jugadores = plantilla[0].players;
 
     mostrarJugadores(jugadores);
