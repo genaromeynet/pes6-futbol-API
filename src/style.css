@@ -5,7 +5,7 @@
 }
 
 body{
-    background-image: url("imgs/fondoWeb.png");
+    background-image: url("/public/fondoWeb.png");  
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -98,7 +98,8 @@ body{
 }
 
 .filtros select,
-#btnFavoritos{
+#btnFavoritos,
+#btnResetFiltros{
     min-width: 220px;
 
     padding: 8px 12px;
@@ -118,9 +119,10 @@ body{
 }
 
 .filtros select:hover,
-#btnFavoritos:hover{
+#btnFavoritos:hover,
+#btnResetFiltros:hover{
     border-color: #f0c400;
-}s
+}
 
 .filtros select:focus,
 #btnFavoritos:focus{
@@ -128,9 +130,10 @@ body{
     box-shadow: 0 0 8px rgba(240,196,0,.4);
 }
 
+
+
+
 /*------estilos a las cards de los equipos-------*/
-
-
 
 .card-equipo{
     position: relative;
@@ -236,6 +239,8 @@ body{
 
     font-size: 18px;
 }
+
+
 
 
 /*estilos a la tabla de posiciones*/
@@ -354,6 +359,8 @@ body{
 
 
 
+
+
 /*------estilos al footer-------*/
 
 .footer {
@@ -401,15 +408,17 @@ body{
 
     display:flex;
 
-    animation: scrollPes 10s linear infinite;
-
     gap:200px;
+}
+
+.animar-footer {
+    animation: scrollPes 8s linear infinite;
 }
 
 @keyframes scrollPes{
 
     from {
-        transform: translateX(100vw);
+        transform: translateX(75vw);
     }
 
     to {

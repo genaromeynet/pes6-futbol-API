@@ -11,6 +11,7 @@ const $liga = document.getElementById("liga");
 const $datosEquipos = document.getElementById("equipos");
 const btnFavoritos = document.getElementById("btnFavoritos");
 const btnPosiciones = document.getElementById("btnPosiciones");
+const btnResetFiltros = document.getElementById("btnResetFiltros");
 const tablaPosiciones = document.getElementById("tablaPosiciones");
 const mensajeFooter = document.getElementById("mensajeFooter");
 
@@ -124,8 +125,6 @@ function cargarEquipos(equipos, temporada) {
     window.location.href = "equipo.html";
 });
     
-const favBtn = document.createElement("button");
-favBtn.classList.add("btn-favorito");
 
 function actualizarEstrella() {
 
@@ -136,11 +135,14 @@ function actualizarEstrella() {
     }
 }
 
+const favBtn = document.createElement("button");
+favBtn.classList.add("btn-favorito");
+
 actualizarEstrella();
 
 favBtn.addEventListener("click", (e) => {
 
-    e.stopPropagation();
+    e.stopPropagation(); /*sirve para que no se ejecute el evento del boton ver plantilla*/
 
     let favoritos =
         JSON.parse(localStorage.getItem("favoritos")) || [];
@@ -155,7 +157,7 @@ favBtn.addEventListener("click", (e) => {
 
     localStorage.setItem("favoritos", JSON.stringify(favoritos));
 
-    actualizarEstrella(); // 🔥 actualiza la UI
+    actualizarEstrella();
 });
 
         card.appendChild(boton);
@@ -167,8 +169,11 @@ favBtn.addEventListener("click", (e) => {
 function resetFiltros() {
     $pais.value = "";
     $liga.value = "";
+    $datosEquipos.innerHTML = "";
     $liga.innerHTML = `<option value="">Seleccionar liga</option>`;
 }
+
+
 
 function agregarFavorito(equipo) {
 
@@ -251,6 +256,7 @@ function mostrarTabla(posiciones, temporada) {
 
 
 
+/*listeners*/
 const paises = await obtenerDatos("paises", obtenerPaises);
 
     cargarPaises(paises);
@@ -293,12 +299,14 @@ $liga.addEventListener("change", async () => {
 
     cargarEquipos(equipos);
 
-    resetFiltros();
-
 });
 
 btnFavoritos.addEventListener("click", () => {
     window.location.href = "favoritos.html";
+});
+
+btnResetFiltros.addEventListener("click", () => {
+    resetFiltros();
 });
 
 btnPosiciones.addEventListener("click", async () => {
@@ -326,25 +334,36 @@ btnPosiciones.addEventListener("click", async () => {
 
 
 //mensajes para el footer
+
+function reiniciarAnimacion() {
+    mensajeFooter.classList.remove("animar-footer");
+    void mensajeFooter.offsetWidth;
+    mensajeFooter.classList.add("animar-footer");
+}
+
 function mensajeAyuda(elemento, mensaje) {
 
     elemento.addEventListener("mouseenter", () => {
 
-        mensajeFooter.innerHTML = `
-                <span>${mensaje}</span>
-`;
+        mensajeFooter.innerHTML = `<span>${mensaje}</span>`;
+        
+        reiniciarAnimacion();
 
     });
 
     elemento.addEventListener("mouseleave", () => {
 
         mensajeFooter.textContent =
-            "Bienvenido a la mejor base de datos de Fútbol.";
+            "Bienvenido a la base de datos de Fútbol.";
 
     });
 
     
 }
+
+window.addEventListener("DOMContentLoaded", () => { /*cuand se reincia la pagina*/
+    reiniciarAnimacion();
+});
 
 mensajeAyuda(
     $pais,

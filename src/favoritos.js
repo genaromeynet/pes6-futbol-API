@@ -51,10 +51,17 @@ favoritos.forEach(equipo => {
 
     btnPlantilla.addEventListener("click", () => {
 
-        localStorage.setItem("idEquipo", equipo.id);
-        localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
+        const equipoNormalizado = { /*sirve para que la estructura del objeto sea igual a la que se guarda en main.js*/
+    team: {
+        id: equipo.id,
+        name: equipo.name,
+        logo: equipo.logo
+    }
+};
 
-        window.location.href = "equipo.html";
+localStorage.setItem("equipoSeleccionado", JSON.stringify(equipoNormalizado));
+localStorage.setItem("idEquipo", equipo.id);
+window.location.href = "equipo.html";
     });
 
     card.appendChild(btnEliminar);

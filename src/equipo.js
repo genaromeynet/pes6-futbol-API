@@ -15,6 +15,7 @@ console.log("equipoSeleccionado:", localStorage.getItem("equipoSeleccionado"));
 const equipoGuardado = JSON.parse(localStorage.getItem("equipoSeleccionado"));
 console.log("Equipo guardado:", equipoGuardado);
 
+
 function mostrarJugadores(jugadores) {
 
    const contenedor = document.getElementById("contenedorJugadores");
@@ -61,7 +62,7 @@ async function cargarEquipo() {
 
     if (plantillaGuardada) {
 
-        console.log("📦 Datos obtenidos del localStorage");
+        console.log("Datos obtenidos del localStorage");
         plantilla = JSON.parse(plantillaGuardada);
 
     } else {
@@ -73,13 +74,10 @@ async function cargarEquipo() {
 
         console.log("Plantilla:", plantilla);
 
-        localStorage.setItem(
-            `plantilla_${idEquipo}`,
-            JSON.stringify(plantilla)
-        );
+        localStorage.setItem(`plantilla_${idEquipo}`, JSON.stringify(plantilla));
     }
 
-    if (equipoGuardado && !plantillaGuardada) { 
+    if (equipoGuardado) {
     mostrarEquipo(equipoGuardado);
 }
 

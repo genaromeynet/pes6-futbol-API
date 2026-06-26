@@ -11,7 +11,7 @@ async function request(url) {
     if (!res.ok) throw new Error("API error");
 
     const data = await res.json();
-    return data//?.response ?? [];
+    return data?.response ?? [];
   } catch (err) {
     console.error(err);
     return [];
