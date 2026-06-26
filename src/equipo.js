@@ -9,6 +9,8 @@ const btnLimpiar = document.getElementById("btnLimpiar");
 
 let jugadores = [];
 
+console.log("idEquipo:", localStorage.getItem("idEquipo"));
+console.log("equipoSeleccionado:", localStorage.getItem("equipoSeleccionado"));
 
 const equipoGuardado = JSON.parse(localStorage.getItem("equipoSeleccionado"));
 console.log("Equipo guardado:", equipoGuardado);
@@ -21,12 +23,10 @@ function mostrarJugadores(jugadores) {
     contenedor.innerHTML = "";
 
 
-if (jugadores.length === 0) {
-    mensaje.textContent = "🔍 No se encontraron jugadores.";
-} else {
-    mensaje.textContent = "";
-}
-
+    if (!Array.isArray(jugadores) || jugadores.length === 0) {
+        mensaje.textContent = "🔍 No se encontraron jugadores.";
+        return;
+    }
 
     jugadores.forEach(jugador => {
 
@@ -55,9 +55,6 @@ if (jugadores.length === 0) {
 
 async function cargarEquipo() {
 
-    if (equipoGuardado) {
-    mostrarEquipo(equipoGuardado);}
-
     const plantillaGuardada = localStorage.getItem(`plantilla_${idEquipo}`);
 
     let plantilla;
@@ -80,6 +77,16 @@ async function cargarEquipo() {
             `plantilla_${idEquipo}`,
             JSON.stringify(plantilla)
         );
+    }
+
+    if (equipoGuardado && !plantillaGuardada) { 
+    mostrarEquipo(equipoGuardado);
+}
+
+    if (!Array.isArray(plantilla) || !plantilla[0]?.players) { /*sirve para validar que la plantilla tenga jugadores */
+        console.log("⚠ Este equipo no tiene jugadores");
+        mostrarJugadores([]);
+        return;
     }
 
     jugadores = plantilla[0].players;

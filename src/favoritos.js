@@ -1,7 +1,23 @@
 const contenedor = document.getElementById("favoritos");
+const link = document.createElement("a");
 
-let favoritos =
-    JSON.parse(localStorage.getItem("favoritos")) || [];
+
+
+function mostrarFavoritos(){
+
+let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+ contenedor.innerHTML = "";
+
+if (!favoritos|| favoritos.length === 0) {
+
+        contenedor.innerHTML = `
+            <p class="mensaje-vacio">
+                ❌ No hay equipos favoritos
+            </p>
+        `;
+    return
+    }
 
 favoritos.forEach(equipo => {
 
@@ -13,21 +29,38 @@ favoritos.forEach(equipo => {
         <h3>${equipo.name}</h3>
     `;
 
-    const btn = document.createElement("button");
-    btn.textContent = "❌";
+    // 🔴 BOTÓN ELIMINAR
+    const btnEliminar = document.createElement("button");
+    btnEliminar.textContent = "❌";
 
-    btn.addEventListener("click", () => {
+    btnEliminar.addEventListener("click", () => {
 
-        let lista =
-            JSON.parse(localStorage.getItem("favoritos")) || [];
+        let lista = JSON.parse(localStorage.getItem("favoritos")) || [];
 
         lista = lista.filter(f => f.id !== equipo.id);
 
         localStorage.setItem("favoritos", JSON.stringify(lista));
 
-        card.remove(); // ✔ ahora siempre funciona
+        mostrarFavoritos();
     });
 
-    card.appendChild(btn);
+    // 🔵 BOTÓN VER PLANTILLA
+    const btnPlantilla = document.createElement("button");
+    btnPlantilla.classList.add("btn-plantilla");
+    btnPlantilla.textContent = "Ver plantilla";
+
+    btnPlantilla.addEventListener("click", () => {
+
+        localStorage.setItem("idEquipo", equipo.id);
+        localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
+
+        window.location.href = "equipo.html";
+    });
+
+    card.appendChild(btnEliminar);
+    card.appendChild(btnPlantilla);
+
     contenedor.appendChild(card);
 });
+};
+mostrarFavoritos();

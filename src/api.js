@@ -11,7 +11,7 @@ async function request(url) {
     if (!res.ok) throw new Error("API error");
 
     const data = await res.json();
-    return data?.response ?? [];
+    return data//?.response ?? [];
   } catch (err) {
     console.error(err);
     return [];
@@ -29,6 +29,7 @@ export function obtenerLigas(pais) {
 
 export function obtenerTablaPosiciones(idLiga, temporada) {
   return request(`https://v3.football.api-sports.io/standings?league=${idLiga}&season=${temporada}`);
+  console.log("RESPONSE API:", data);
 }
 
 export function obtenerEquipos(idLiga, temporada) {
