@@ -24,7 +24,7 @@ export function obtenerPaises() {
 }
 
 export function obtenerLigas(pais) {
-    return request(`https://v3.football.api-sports.io/leagues?country=${pais}`);
+  return request(`https://v3.football.api-sports.io/leagues?country=${pais}`);
 }
 
 export function obtenerTablaPosiciones(idLiga, temporada) {
@@ -49,7 +49,7 @@ export function obtenerJugadores(idEquipo, temporada) {
 }
 
 export function obtenerPlantilla(idEquipo) {
-    return request(`https://v3.football.api-sports.io/players/squads?team=${idEquipo}`);
+  return request(`https://v3.football.api-sports.io/players/squads?team=${idEquipo}`);
 }
 
 

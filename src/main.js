@@ -1,9 +1,9 @@
 import "./style.css";
 import {
-  obtenerPaises,
-  obtenerLigas,
-  obtenerEquipos,
-  obtenerTablaPosiciones
+    obtenerPaises,
+    obtenerLigas,
+    obtenerEquipos,
+    obtenerTablaPosiciones
 } from "./api.js";
 
 const $pais = document.getElementById("pais");
@@ -45,30 +45,30 @@ async function obtenerDatos(clave, funcionAPI) {
 
 function cargarPaises(paises) {
 
-  paises.forEach(p => {
-    const option = document.createElement("option");
-    option.value = p.name;
-    option.textContent = p.name;
-    $pais.appendChild(option);
-  });
+    paises.forEach(p => {
+        const option = document.createElement("option");
+        option.value = p.name;
+        option.textContent = p.name;
+        $pais.appendChild(option);
+    });
 }
 
 function cargarLigas(ligas) {
 
-  $liga.innerHTML = "";
+    $liga.innerHTML = "";
 
-  const placeholder = document.createElement("option"); //placeholder creado para ver "seleccionar liga"
-  placeholder.value = "";
-  placeholder.textContent = "Seleccionar liga";
-  placeholder.selected = true;
+    const placeholder = document.createElement("option"); //placeholder creado para ver "seleccionar liga"
+    placeholder.value = "";
+    placeholder.textContent = "Seleccionar liga";
+    placeholder.selected = true;
 
-  $liga.appendChild(placeholder);
+    $liga.appendChild(placeholder);
 
     ligas.forEach(ligaActual => {
-    const option = document.createElement("option");
-      option.value = ligaActual.league.id;
-      option.textContent = ligaActual.league.name;
-      $liga.appendChild(option);
+        const option = document.createElement("option");
+        option.value = ligaActual.league.id;
+        option.textContent = ligaActual.league.name;
+        $liga.appendChild(option);
     });
 }
 
@@ -77,8 +77,8 @@ function cargarEquipos(equipos, temporada) {
 
     $datosEquipos.innerHTML = "";
 
-    // 🔴 normalizar SIEMPRE a array
-   if (!Array.isArray(equipos)) {
+    //normalizar a array
+    if (!Array.isArray(equipos)) {
         console.warn("Equipos no es array:", equipos);
 
         $datosEquipos.innerHTML = `
@@ -90,7 +90,7 @@ function cargarEquipos(equipos, temporada) {
         return;
     }
 
-    // 🔴 si no hay datos, mostrar mensaje y salir
+    //si no hay datos, mostrar mensaje y salir
     if (equipos.length === 0) {
         $datosEquipos.innerHTML = `
             <p class="mensaje-vacio">
@@ -116,49 +116,49 @@ function cargarEquipos(equipos, temporada) {
     </button>
         `;
 
-       const boton = card.querySelector(".btn-plantilla");
+        const boton = card.querySelector(".btn-plantilla");
 
-    boton.addEventListener("click", () => {
-    console.log("Equipo:", equipo);
-    localStorage.setItem("idEquipo", equipo.team.id);
-    localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
-    window.location.href = "equipo.html";
-});
-    
+        boton.addEventListener("click", () => {
+            console.log("Equipo:", equipo);
+            localStorage.setItem("idEquipo", equipo.team.id);
+            localStorage.setItem("equipoSeleccionado", JSON.stringify(equipo));
+            window.location.href = "equipo.html";
+        });
 
-function actualizarEstrella() {
 
-    if (esFavorito(equipo.team.id)) {
-        favBtn.textContent = "⭐";
-    } else {
-        favBtn.textContent = "☆";
-    }
-}
+        function actualizarEstrella() {
 
-const favBtn = document.createElement("button");
-favBtn.classList.add("btn-favorito");
+            if (esFavorito(equipo.team.id)) {
+                favBtn.textContent = "⭐";
+            } else {
+                favBtn.textContent = "☆";
+            }
+        }
 
-actualizarEstrella();
+        const favBtn = document.createElement("button");
+        favBtn.classList.add("btn-favorito");
 
-favBtn.addEventListener("click", (e) => {
+        actualizarEstrella();
 
-    e.stopPropagation(); /*sirve para que no se ejecute el evento del boton ver plantilla*/
+        favBtn.addEventListener("click", (e) => {
 
-    let favoritos =
-        JSON.parse(localStorage.getItem("favoritos")) || [];
+            e.stopPropagation(); /*sirve para que no se ejecute el evento del boton ver plantilla*/
 
-    const existe = favoritos.some(f => f.id === equipo.team.id);
+            let favoritos =
+                JSON.parse(localStorage.getItem("favoritos")) || [];
 
-    if (existe) {
-        favoritos = favoritos.filter(f => f.id !== equipo.team.id);
-    } else {
-        favoritos.push(equipo.team);
-    }
+            const existe = favoritos.some(f => f.id === equipo.team.id);
 
-    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+            if (existe) {
+                favoritos = favoritos.filter(f => f.id !== equipo.team.id);
+            } else {
+                favoritos.push(equipo.team);
+            }
 
-    actualizarEstrella();
-});
+            localStorage.setItem("favoritos", JSON.stringify(favoritos));
+
+            actualizarEstrella();
+        });
 
         card.appendChild(boton);
         card.appendChild(favBtn);
@@ -198,12 +198,26 @@ function esFavorito(id) {
 
 function mostrarTabla(posiciones, temporada) {
 
-    const standings = posiciones?.response?.[0]?.league?.standings?.[0];
-
     tablaPosiciones.innerHTML = "";
 
+    if (!posiciones) {
+        tablaPosiciones.textContent = "Error: no se recibió respuesta de la API.";
+        return;
+    }
+
+    if (posiciones.errors && posiciones.errors.requests) {
+        console.error("API error (requests):", posiciones.errors.requests);
+        tablaPosiciones.textContent = `Error de API: ${posiciones.errors.requests}`;
+        return;
+    }
+
+    const source = Array.isArray(posiciones) ? posiciones : posiciones?.response ?? [];
+
+    const standings = source?.[0]?.league?.standings?.[0];
+
     if (!standings || standings.length === 0) {
-        tablaPosiciones.textContent = "No hay tabla disponible";
+        console.warn("mostrarTabla: standings no encontrado. Respuesta recibida:", posiciones);
+        tablaPosiciones.textContent = "No hay tabla disponible para esta liga/temporada.";
         return;
     }
 
@@ -233,7 +247,7 @@ function mostrarTabla(posiciones, temporada) {
 
         const fila = document.createElement("tr");
 
-         fila.innerHTML = `
+        fila.innerHTML = `
             <td>${equipo.rank}</td>
             <td>${equipo.team.name}</td>
             <td>${equipo.all.played}</td>
@@ -259,9 +273,9 @@ function mostrarTabla(posiciones, temporada) {
 /*listeners*/
 const paises = await obtenerDatos("paises", obtenerPaises);
 
-    cargarPaises(paises);
+cargarPaises(paises);
 
-    $pais.addEventListener("change", async () => {
+$pais.addEventListener("change", async () => {
     paisSeleccionado = $pais.value;
 
     $datosEquipos.innerHTML = "";
@@ -294,7 +308,7 @@ $liga.addEventListener("change", async () => {
         `equipos_${idLiga}_${temporada}`,
         () => obtenerEquipos(idLiga, temporada)
     );
-    
+
     console.log(equipos);
 
     cargarEquipos(equipos);
@@ -327,6 +341,8 @@ btnPosiciones.addEventListener("click", async () => {
     const posiciones =
         await obtenerTablaPosiciones(idLigaActual, temporada);
 
+    console.log("posiciones recibidas:", posiciones);
+
     mostrarTabla(posiciones);
 
     tablaAbierta = true;
@@ -346,7 +362,7 @@ function mensajeAyuda(elemento, mensaje) {
     elemento.addEventListener("mouseenter", () => {
 
         mensajeFooter.innerHTML = `<span>${mensaje}</span>`;
-        
+
         reiniciarAnimacion();
 
     });
@@ -358,7 +374,7 @@ function mensajeAyuda(elemento, mensaje) {
 
     });
 
-    
+
 }
 
 window.addEventListener("DOMContentLoaded", () => { /*cuand se reincia la pagina*/

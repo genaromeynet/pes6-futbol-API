@@ -18,7 +18,7 @@ console.log("Equipo guardado:", equipoGuardado);
 
 function mostrarJugadores(jugadores) {
 
-   const contenedor = document.getElementById("contenedorJugadores");
+    const contenedor = document.getElementById("contenedorJugadores");
     const mensaje = document.getElementById("mensajeBusqueda");
 
     contenedor.innerHTML = "";
@@ -41,11 +41,11 @@ function mostrarJugadores(jugadores) {
 
                 <h3>${jugador.name}</h3>
 
-                <p>⚽ ${jugador.position}</p>
+                <p>Pos: ${jugador.position}</p>
 
-                <p>🎂 ${jugador.age} años</p>
+                <p>Edad ${jugador.age} años</p>
 
-                <p>🔟 ${jugador.number ?? "-"}</p>
+                <p>Dorsal: ${jugador.number ?? "-"}</p>
 
             </div>
         `;
@@ -69,7 +69,7 @@ async function cargarEquipo() {
 
         console.log("🌐 Consultando la API");
         console.log("idEquipo:", idEquipo);
-        
+
         plantilla = await obtenerPlantilla(idEquipo);
 
         console.log("Plantilla:", plantilla);
@@ -78,8 +78,8 @@ async function cargarEquipo() {
     }
 
     if (equipoGuardado) {
-    mostrarEquipo(equipoGuardado);
-}
+        mostrarEquipo(equipoGuardado);
+    }
 
     if (!Array.isArray(plantilla) || !plantilla[0]?.players) { /*sirve para validar que la plantilla tenga jugadores */
         console.log("⚠ Este equipo no tiene jugadores");
@@ -159,7 +159,7 @@ btnLimpiar.addEventListener("click", () => {
     filtroPosicion.value = "Todos";
     ordenJugadores.value = "ninguno";
 
-   filtrarJugadores();
+    filtrarJugadores();
 });
 
 filtroPosicion.addEventListener("change", filtrarJugadores);

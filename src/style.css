@@ -1,11 +1,11 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
-    background-image: url("/public/fondoWeb.png");  
+body {
+    background-image: url("/public/fondoWeb.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -14,11 +14,12 @@ body{
     font-family: "Trebuchet MS", sans-serif;
     color: rgb(0, 0, 0);
 
-    padding-bottom: 35px; /* espacio para el footer */
+    padding-bottom: 35px;
+    /* espacio para el footer */
 }
 
 .header {
-    background: rgb(50,50,50);
+    background: rgb(50, 50, 50);
     color: rgb(198, 198, 198);
     border-bottom: 2px solid #1a1a1a;
 
@@ -37,11 +38,9 @@ body{
     left: -30%;
     width: 160%;
     height: 200%;
-    background: radial-gradient(
-        circle,
-        rgba(255,255,255,0.08),
-        transparent 60%
-    );
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.08),
+            transparent 60%);
     transform: rotate(-10deg);
 }
 
@@ -50,38 +49,38 @@ body{
     font-size: 28px;
     font-weight: 900;
     letter-spacing: 2px;
-    color: rgb(220,220,220);
+    color: rgb(220, 220, 220);
     text-transform: uppercase;
     font-weight: 700;
-    transform: scaleX(1.2); 
-    transform-origin: left; 
+    transform: scaleX(1.2);
+    transform-origin: left;
 }
 
 .header h2 {
     margin: 5px 0 0;
     font-size: 14px;
     font-weight: 600;
-    color: rgb(180,180,180);
+    color: rgb(180, 180, 180);
     letter-spacing: 1px;
-    font-weight: 700; 
-     transform: scaleX(1.2); 
-    transform-origin: left; 
+    font-weight: 700;
+    transform: scaleX(1.2);
+    transform-origin: left;
 }
 
 .header p {
     margin: 8px 0 0;
     font-size: 13px;
-    color: rgb(150,150,150);
+    color: rgb(150, 150, 150);
     letter-spacing: 0.5px;
-    font-weight: 700; 
-     transform: scaleX(1.2); 
-    transform-origin: left; 
+    font-weight: 700;
+    transform: none;
+    transform-origin: left;
 }
 
 
 /*------estilos a los filtros de busqueda-------*/
 
-.filtros{
+.filtros {
     margin: 15px 20px;
     padding: 15px;
 
@@ -90,7 +89,7 @@ body{
     align-items: center;
     flex-wrap: wrap;
 
-    background: rgb(138,138,138);
+    background: rgb(138, 138, 138);
 
     border-radius: 7px;
 
@@ -99,12 +98,12 @@ body{
 
 .filtros select,
 #btnFavoritos,
-#btnResetFiltros{
+#btnResetFiltros {
     min-width: 220px;
 
     padding: 8px 12px;
 
-    background: rgb(55,55,55);
+    background: rgb(55, 55, 55);
     color: white;
 
     border: 1px solid #222;
@@ -120,14 +119,14 @@ body{
 
 .filtros select:hover,
 #btnFavoritos:hover,
-#btnResetFiltros:hover{
+#btnResetFiltros:hover {
     border-color: #f0c400;
 }
 
 .filtros select:focus,
-#btnFavoritos:focus{
+#btnFavoritos:focus {
     border-color: #f0c400;
-    box-shadow: 0 0 8px rgba(240,196,0,.4);
+    box-shadow: 0 0 8px rgba(240, 196, 0, .4);
 }
 
 
@@ -135,7 +134,7 @@ body{
 
 /*------estilos a las cards de los equipos-------*/
 
-.card-equipo{
+.card-equipo {
     position: relative;
 
     width: 180px;
@@ -144,19 +143,20 @@ body{
     flex-direction: column;
     align-items: center;
 
-    padding: 15px;
+    /* dejar espacio superior para la estrella/favorito absoluto */
+    padding: 36px 15px 15px 15px;
 
-    background: rgba(138,138,138,0.9);
+    background: rgba(138, 138, 138, 0.9);
     border: 2px solid #9aa0aa;
 
     transition: .2s;
 }
 
-.card-equipo:hover{
+.card-equipo:hover {
     border-color: rgb(49, 57, 70);
 }
 
-.card-equipo img{
+.card-equipo img {
     width: 75px;
     height: 75px;
     object-fit: contain;
@@ -164,19 +164,20 @@ body{
     margin-bottom: 13px;
 }
 
-.card-equipo h3{
-     height: 50px;
+.card-equipo h3 {
+    height: 50px;
     margin-bottom: 10px;
     text-align: center;
     color: rgb(0, 0, 0);
     font-size: 16px;
 }
 
-.btn-favorito{
+.btn-favorito {
     position: absolute;
 
-    top: 10px;
+    top: 1px;
     right: 10px;
+    left: auto;
 
     background: transparent;
     border: none;
@@ -187,7 +188,7 @@ body{
     cursor: pointer;
 }
 
-.btn-favorito:hover{
+.btn-favorito:hover {
     transform: scale(1.15);
 }
 
@@ -197,18 +198,19 @@ body{
     background: rgb(49, 57, 70);
     color: white;
 
-    border: 1px solid rgb(95,95,95);
+    border: 1px solid rgb(95, 95, 95);
 
     padding: 7px;
+    margin-top: 8px; /* separar del encabezado y evitar solapamiento con la estrella */
 
     cursor: pointer;
 }
 
-.btn-plantilla:hover{
+.btn-plantilla:hover {
     background: rgb(208, 182, 95);
 }
 
-#equipos{
+#equipos {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
@@ -218,20 +220,20 @@ body{
     align-items: flex-start;
 }
 
-.card-equipo{
+.card-equipo {
     opacity: 0.95;
 }
 
-.card-equipo:hover{
+.card-equipo:hover {
     opacity: 1.5;
 }
 
 /*no hay equipos*/
-.mensaje-vacio{
+.mensaje-vacio {
     margin: 20px;
     padding: 15px;
 
-    background: rgb(138,138,138);
+    background: rgb(138, 138, 138);
 
     border: 1px solid #4d4d4d;
 
@@ -245,10 +247,10 @@ body{
 
 /*estilos a la tabla de posiciones*/
 
-.acordeon-posiciones{
+.acordeon-posiciones {
     margin: 15px 20px;
 
-    background: rgb(138,138,138);
+    background: rgb(138, 138, 138);
 
     border: 1px solid #4d4d4d;
 
@@ -259,12 +261,12 @@ body{
     padding: 8px;
 }
 
-#btnPosiciones{
+#btnPosiciones {
     width: 100%;
 
     padding: 10px 12px;
 
-    background: rgb(55,55,55);
+    background: rgb(55, 55, 55);
     color: white;
 
     display: flex;
@@ -286,7 +288,7 @@ body{
 
 }
 
-#btnPosiciones:hover{
+#btnPosiciones:hover {
     border-color: #f0c400;
 }
 
@@ -301,19 +303,20 @@ body{
     transform: rotate(180deg);
 }
 
-#tablaPosiciones{
+#tablaPosiciones {
     margin-top: 8px;
 
-    background: rgb(55,55,55);
+    background: rgb(55, 55, 55);
 
     border-radius: 7px;
 
     color: white;
 }
 
-.tabla-clasificacion{
+.tabla-clasificacion {
     width: 100%;
-    border-collapse: collapse; /*borra bordes de la tabla*/
+    border-collapse: collapse;
+    /*borra bordes de la tabla*/
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 4px;
@@ -326,8 +329,8 @@ body{
     max-height: 1000px;
 }
 
-.tabla-clasificacion thead{
-    background: rgb(49,57,70);
+.tabla-clasificacion thead {
+    background: rgb(49, 57, 70);
     color: white;
 }
 
@@ -335,17 +338,17 @@ body{
     background: rgb(201, 201, 201);
 }
 
-.tabla-clasificacion th{
+.tabla-clasificacion th {
     padding: 10px;
     text-align: center;
     border-right: 1px solid #5a5a5a;
 }
 
-.tabla-clasificacion td:nth-child(odd){
+.tabla-clasificacion td:nth-child(odd) {
     background-color: rgb(162, 162, 162);
 }
 
-.tabla-clasificacion td{
+.tabla-clasificacion td {
     padding: 8px;
     text-align: center;
     border-bottom: 1px solid #111;
@@ -375,7 +378,7 @@ body{
 
     overflow: hidden;
 
-    background: rgb(138,138,138);
+    background: rgb(138, 138, 138);
 
     border-top: 2px solid black;
 
@@ -385,37 +388,39 @@ body{
 
     align-items: center;
 
-    overflow:hidden;
+    overflow: hidden;
 
     font-size: 23px;
 
     font-family: "Arial", sans-serif;
 
-    font-weight: 700; /* grosor de la letra*/
+    font-weight: 700;
+    /* grosor de la letra*/
 
     letter-spacing: 4px;
 
-    color:#111;
+    color: #111;
 
     text-transform: none;
 
-    transform: scaleX(1.5); /* aumenta el tamaño horizontal del texto */
+    transform: scaleX(1.5);
+    /* aumenta el tamaño horizontal del texto */
 
     transform-origin: left;
 }
 
-#mensajeFooter{
+#mensajeFooter {
 
-    display:flex;
+    display: flex;
 
-    gap:200px;
+    gap: 200px;
 }
 
 .animar-footer {
     animation: scrollPes 8s linear infinite;
 }
 
-@keyframes scrollPes{
+@keyframes scrollPes {
 
     from {
         transform: translateX(75vw);
@@ -425,4 +430,41 @@ body{
         transform: translateX(-100%);
     }
 
+}
+
+
+/* Responsive: style.css */
+@media (max-width: 1200px) {
+  .card-equipo { width: 140px; }
+  .filtros select, #btnFavoritos, #btnResetFiltros { min-width: 180px; font-size:14px; }
+  .tabla-clasificacion { font-size:18px; }
+  .footer { font-size:20px; }
+}
+
+@media (max-width: 900px) {
+  #equipos { justify-content: center; }
+  .card-equipo { width: 150px; padding:10px; }
+  .header h1 { font-size:22px; }
+  .tabla-clasificacion { font-size:16px; }
+}
+
+@media (max-width: 600px) {
+  .filtros { flex-direction: column; gap:8px; padding:10px; }
+  .filtros select, #btnFavoritos, #btnResetFiltros { width:100%; min-width:0; }
+  .card-equipo { width: 100%; max-width:320px; flex-direction:row; align-items:center; gap:12px; padding-top: 25px }
+  .card-equipo img { width:50px; height:50px; }
+  .card-equipo h3 { font-size:14px; height:auto; text-align:left; }
+
+  .tabla-clasificacion { font-size:14px; letter-spacing:2px; }
+  .tabla-clasificacion th, .tabla-clasificacion td { padding:6px; }
+  .footer { font-size:16px; height:auto; padding:6px; }
+  .header h1,
+  .header h2 {transform: none; font-size: 18px;}
+  .footer {transform: none; letter-spacing: 2px; font-size: 14px; height: auto; padding: 8px;}
+}
+
+@media (max-width: 480px) {
+  .card-equipo { padding:8px; }
+  .header h1 { font-size:18px; }
+  .mensaje-vacio { font-size:16px; }
 }

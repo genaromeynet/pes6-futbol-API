@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     margin: 0;
 
     font-family: Arial, Helvetica, sans-serif;
@@ -18,7 +18,7 @@ body{
 
 
 
-.equipo-header{
+.equipo-header {
     background: rgb(49, 57, 70);
     color: white;
 
@@ -35,7 +35,7 @@ body{
 }
 
 
-.controles{
+.controles {
     margin: 15px 20px;
     padding: 15px;
 
@@ -44,24 +44,24 @@ body{
     align-items: center;
     flex-wrap: wrap;
 
-    background: rgb(138,138,138);
+    background: rgb(138, 138, 138);
 
     border-radius: 7px;
 
     border: 1px solid #4d4d4d;
-    
+
     margin: 30px 20px;
 }
 
 .controles select,
 .controles input,
 #btnLimpiar,
-.btn-volver{
-    min-width: 220px;                           
+.btn-volver {
+    min-width: 220px;
 
     padding: 8px 12px;
 
-    background: rgb(55,55,55);
+    background: rgb(55, 55, 55);
     color: white;
 
     border: 1px solid #222;
@@ -77,19 +77,19 @@ body{
 .controles select:hover,
 .controles input:hover,
 #btnLimpiar:hover,
-.btn-volver:hover{
+.btn-volver:hover {
     border-color: #f0c400;
 }
 
 .controles select:focus,
 .controles input:focus,
 #btnLimpiar:focus,
-.btn-volver:focus{
+.btn-volver:focus {
     border-color: #f0c400;
-    box-shadow: 0 0 8px rgba(240,196,0,.4);
+    box-shadow: 0 0 8px rgba(240, 196, 0, .4);
 }
 
-.btn-volver{
+.btn-volver {
     display: inline-block;
     margin-left: auto;
     min-width: auto;
@@ -108,7 +108,7 @@ body{
     color: #aaa;
 }
 
-#contenedorJugadores{
+#contenedorJugadores {
     display: flex;
     flex-wrap: wrap;
     max-width: 1500px;
@@ -116,11 +116,11 @@ body{
     margin: 0 auto;
     justify-content: center;
     padding: 10px;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
     border: 1px solid #4d4d4d;
 }
 
-.card-jugador h3{
+.card-jugador h3 {
     flex: 1;
 
     font-size: 15px;
@@ -130,8 +130,9 @@ body{
     color: #111;
 }
 
-.card-jugador{
-    width: calc(33.333% - 15px);   /* 3 por fila */
+.card-jugador {
+    width: calc(33.333% - 15px);
+    /* 3 por fila */
     min-height: 120px;
 
     display: flex;
@@ -139,7 +140,7 @@ body{
 
     padding: 15px;
 
-     background: rgba(133, 133, 133, 0.92);
+    background: rgba(133, 133, 133, 0.92);
     border: 2px solid #9aa0aa;
 
     box-sizing: border-box;
@@ -151,7 +152,7 @@ body{
     gap: 10px;
 }
 
-.card-jugador img{
+.card-jugador img {
     width: 80px;
     height: 80px;
 
@@ -162,15 +163,16 @@ body{
     margin-right: 12px;
 }
 
-.card-jugador p{
+.card-jugador p {
     font-size: 13px;
     margin: 0 10px;
 
     color: #333;
-    white-space: nowrap;
+    white-space: normal;
+    word-break: break-word;
 }
 
-.card-jugador:hover{
+.card-jugador:hover {
     background: #d4c375;
     cursor: pointer;
 }
@@ -200,7 +202,8 @@ body{
 
     gap: 20px;
 
-    justify-content: center; /* opcional, centra las filas */
+    justify-content: center;
+    /* opcional, centra las filas */
 }
 
 
@@ -210,20 +213,48 @@ body{
 @media (max-width: 1200px) {
 
     .card-jugador {
-        width: calc(25% - 20px); /* 4 por fila */
+        width: calc(25% - 20px);
+        /* 4 por fila */
     }
 }
 
 @media (max-width: 900px) {
 
     .card-jugador {
-        width: calc(33.33% - 20px); /* 3 por fila */
+        width: calc(33.33% - 20px);
+        /* 3 por fila */
     }
 }
 
 @media (max-width: 600px) {
 
     .card-jugador {
-        width: calc(50% - 20px); /* 2 por fila */
+        width: calc(50% - 20px);
+        /* 2 por fila */
     }
+}
+
+
+/* Responsive: styleEquipo.css */
+@media (max-width: 1200px) {
+  .card-jugador { width: calc(25% - 20px); }
+  .equipo-header img { width:80px; height:80px; }
+}
+
+@media (max-width: 900px) {
+  .card-jugador { width: calc(33.33% - 20px); }
+  .controles select, .controles input { min-width: 160px; }
+}
+
+@media (max-width: 600px) {
+  .card-jugador { width: calc(50% - 16px); flex-direction: row; gap:8px; }
+  .card-jugador img { width:60px; height:60px; }
+  .controles { padding:10px; }
+  .equipo-header { margin:12px; padding:8px; }
+}
+
+@media (max-width: 480px) {
+  .card-jugador { width: 100%; flex-direction: row; }
+  .card-jugador p { white-space: normal; font-size:13px; }
+  .equipo-header img { width:60px; height:60px; }
 }
