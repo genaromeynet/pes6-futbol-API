@@ -37,13 +37,20 @@ async function obtenerDatos(clave, funcionAPI) {
 
     const datos = await funcionAPI();
 
-    localStorage.setItem(clave, JSON.stringify(datos));
+    if (Array.isArray(datos?.response) ? datos.response.length > 0 : Array.isArray(datos) ? datos.length > 0 : true) {
+    localStorage.setItem(clave, JSON.stringify(datos)); /*no guarda arrays vacios*/
+}
 
     return datos;
 }
 
 
 function cargarPaises(paises) {
+
+     if (!Array.isArray(paises)) {
+        console.warn("paises no es array:", paises);
+        return;
+    }
 
     paises.forEach(p => {
         const option = document.createElement("option");
@@ -90,7 +97,7 @@ function cargarEquipos(equipos, temporada) {
         return;
     }
 
-    //si no hay datos, mostrar mensaje y salir
+
     if (equipos.length === 0) {
         $datosEquipos.innerHTML = `
             <p class="mensaje-vacio">
@@ -273,7 +280,7 @@ function mostrarTabla(posiciones, temporada) {
 /*listeners*/
 const paises = await obtenerDatos("paises", obtenerPaises);
 
-cargarPaises(paises);
+cargarPaises(paises?.response ?? paises);
 
 $pais.addEventListener("change", async () => {
     paisSeleccionado = $pais.value;
@@ -285,7 +292,7 @@ $pais.addEventListener("change", async () => {
         () => obtenerLigas(paisSeleccionado)
     );
 
-    const listaLigas = ligas?.response ?? ligas; // 🔥 FALTABA ESTO
+    const listaLigas = ligas?.response ?? ligas;
 
     if (!listaLigas || listaLigas.length === 0) {
         $liga.innerHTML = "";
@@ -377,7 +384,7 @@ function mensajeAyuda(elemento, mensaje) {
 
 }
 
-window.addEventListener("DOMContentLoaded", () => { /*cuand se reincia la pagina*/
+window.addEventListener("DOMContentLoaded", () => { /*cuando se reincia la pagina*/
     reiniciarAnimacion();
 });
 
