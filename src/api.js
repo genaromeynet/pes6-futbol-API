@@ -8,12 +8,16 @@ async function request(url) {
   try {
     const res = await fetch(url, { headers });
 
-    if (!res.ok) throw new Error("API error");
-
     const data = await res.json();
+
+    if (data?.errors && Object.keys(data.errors).length > 0) {
+      console.error("API ERROR:", data.errors);
+      return [];
+    }
+
     return data?.response ?? [];
   } catch (err) {
-    console.error(err);
+    console.error("FETCH ERROR:", err);
     return [];
   }
 }
